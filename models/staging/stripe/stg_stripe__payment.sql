@@ -13,7 +13,7 @@ renamed as (
         orderid,
         paymentmethod,
         status,
-        amount,
+        amount / 100 as amount,
         created,
         _batched_at
 
