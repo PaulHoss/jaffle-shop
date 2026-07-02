@@ -2,13 +2,16 @@ version: 2
 
 models:
   - name: fct_orders
+    description: One row per order, with the order date, customer, and successful payment amount.
     columns:
       - name: order_id
+        description: Primary key for the order.
         data_tests:
           - unique
           - not_null
 
       - name: customer_id
+        description: Foreign key to the customer who placed the order.
         data_tests:
           - not_null
           - relationships:
@@ -17,9 +20,11 @@ models:
                 field: customer_id
 
       - name: order_date
+        description: Date the order was placed.
         data_tests:
           - not_null
 
       - name: amount
+        description: Total successful payment amount collected for the order.
         data_tests:
           - not_null

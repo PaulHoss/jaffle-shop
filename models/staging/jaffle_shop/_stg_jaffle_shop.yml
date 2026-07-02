@@ -8,9 +8,11 @@ models:
           - unique
           - not_null
       - name: first_name
+        description: Customer's first name.
         data_tests:
           - not_null
       - name: last_name
+        description: Customer's last name.
         data_tests:
           - not_null
 
