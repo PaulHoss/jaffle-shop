@@ -6,6 +6,7 @@ sources:
     schema: stripe
     tables:
       - name: payment
+        description: Raw Stripe payment records ingested from the Stripe source system.
         config: 
           freshness:
             warn_after:
@@ -15,3 +16,37 @@ sources:
               count: 2
               period: day
           loaded_at_field: _batched_at
+        columns:
+          - name: id
+            description: Primary key for the Stripe payment record.
+          - name: orderid
+            description: Identifier for the related order in the source system.
+          - name: paymentmethod
+            description: Payment method used to process the transaction.
+          - name: status
+            description: Status of the payment in Stripe.
+          - name: amount
+            description: Payment amount stored as an integer in the smallest currency unit, such as cents.
+          - name: created
+            description: Timestamp when the payment record was created in Stripe.
+          - name: _batched_at
+            description: Timestamp when this record was loaded into the warehouse.
+
+models:
+  - name: stg_stripe__payment
+    description: Clean staging model for Stripe payments, with renamed fields and payment amounts converted from cents to standard currency units.
+    columns:
+      - name: id
+        description: Primary key for the Stripe payment record.
+      - name: order_id
+        description: Foreign key to the related order, renamed from `orderid`.
+      - name: paymentmethod
+        description: Payment method used to process the transaction.
+      - name: payment_status
+        description: Status of the payment in Stripe, renamed from `status`.
+      - name: payment_amount
+        description: Payment amount in standard currency units, converted from the raw integer amount stored in cents.
+      - name: created
+        description: Timestamp when the payment record was created in Stripe.
+      - name: _batched_at
+        description: Timestamp when this record was loaded from the raw Stripe source.
